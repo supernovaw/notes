@@ -1,8 +1,8 @@
 package supernovaw.notes.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import supernovaw.notes.R;
 
