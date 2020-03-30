@@ -79,6 +79,7 @@ public class NotesListActivity extends AppCompatActivity {
 	private void removeNote(int pos) {
 		Notes.removeNote(pos);
 		adapter.notifyDataSetChanged();
+		Notes.save(this);
 	}
 
 	private static void onStartup(Activity context) {
