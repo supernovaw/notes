@@ -8,12 +8,18 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import supernovaw.notes.PinCodeManager;
 import supernovaw.notes.R;
 
 public class PinCodeInput extends AppCompatActivity {
-	private static final char DOT_CHAR = '\u30FB'; // "・" char
+	/* When launching 'switchToActivity', this boolean extra is
+	 * sent to verify that the PIN was indeed entered correctly.
+	 */
+	public static final String PIN_ENTERED_CORRECTLY_EXTRA = "pin_correct";
+	public static final String ACTIVITY_CLASSNAME_EXTRA = "activity_classname";
+	static final char DOT_CHAR = '\u30FB'; // "・" char
 
 	private TextView title_label;
 	private TextView label_all_dots_anchor;
@@ -23,16 +29,20 @@ public class PinCodeInput extends AppCompatActivity {
 
 	private int[] typedNumbers;
 	private int typedNumbersAmt;
+	// an activity class to switch to when the PIN is entered correctly
+	private Class switchToActivity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_pin_code_input);
 		initViews();
+		initActivityToSwitch();
 
 		typedNumbers = new int[PinCodeManager.getPinLength()];
 
-		title_label.setText(R.string.type_pin_title);
+		String title = getIntent().getStringExtra(Intent.EXTRA_TITLE);
+		title_label.setText(title == null ? getString(R.string.type_pin_title) : title);
 
 		char[] allDotsString = new char[PinCodeManager.getPinLength()];
 		Arrays.fill(allDotsString, DOT_CHAR);
@@ -65,6 +75,15 @@ public class PinCodeInput extends AppCompatActivity {
 		numberButtons[9] = findViewById(R.id.pad_num_9);
 	}
 
+	private void initActivityToSwitch() {
+		try {
+			String classname = getIntent().getStringExtra(ACTIVITY_CLASSNAME_EXTRA);
+			switchToActivity = Class.forName(Objects.requireNonNull(classname));
+		} catch (ClassNotFoundException | NullPointerException e) {
+			switchToActivity = NotesListActivity.class;
+		}
+	}
+
 	private void onNumEntered(int num) {
 		typedNumbers[typedNumbersAmt] = num;
 
@@ -83,8 +102,11 @@ public class PinCodeInput extends AppCompatActivity {
 
 	private void pinEntered(boolean correct) {
 		if (correct) {
+			Intent intent = new Intent(this, switchToActivity);
+			intent.putExtra(PIN_ENTERED_CORRECTLY_EXTRA, true);
+
 			finish();
-			startActivity(new Intent(this, NotesListActivity.class));
+			startActivity(intent);
 		} else {
 			clear();
 		}

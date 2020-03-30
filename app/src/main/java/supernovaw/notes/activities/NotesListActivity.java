@@ -3,8 +3,12 @@ package supernovaw.notes.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -44,6 +48,23 @@ public class NotesListActivity extends AppCompatActivity {
 	private void initViews() {
 		notes_list_view = findViewById(R.id.notes_list_view);
 		new_note_button = findViewById(R.id.new_note_button);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.menu_notes_list, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+		if (item.getItemId() == R.id.open_settings) {
+			startActivity(new Intent(this, SettingsActivity.class));
+			return true;
+		} else {
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	// after editing or adding a note, update the list
