@@ -49,7 +49,6 @@ public final class PinCodeManager {
 				}
 			} catch (IOException | ArrayIndexOutOfBoundsException e) {
 				pinCode = new int[0]; // OutOfBounds may occur in case of corrupted file
-				pinCode = new int[]{1, 2, 3, 4, 5}; // test TODO: remove
 			}
 			loggedIn = pinCode.length == 0;
 		}

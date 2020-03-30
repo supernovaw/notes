@@ -1,11 +1,11 @@
 package supernovaw.notes;
 
-import android.content.Context;
-import android.text.format.DateFormat;
-
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 
 public class Note {
+	private static final DateFormat DATE_FORMAT = DateFormat.
+			getDateTimeInstance(DateFormat.DEFAULT, DateFormat.SHORT);
+
 	private String title;
 	private String text;
 
@@ -37,11 +37,30 @@ public class Note {
 		modified = accessed = t;
 	}
 
-	/* The context is used to obtain a correct date-time format. If there is
-	 * no date to be displayed (settings option), an empty string is returned.
-	 */
-	public String getDisplayedDate(Context context) {
-		SimpleDateFormat dateFormat = (SimpleDateFormat) DateFormat.getLongDateFormat(context);
-		return dateFormat.format(created);
+	public boolean hasDeadline() {
+		return hasDeadline;
+	}
+
+	public long getDeadline() {
+		return deadline;
+	}
+
+	public void setDeadline(long deadline) {
+		this.deadline = deadline;
+		hasDeadline = true;
+	}
+
+	public void removeDeadline() {
+		hasDeadline = false;
+	}
+
+	// if there is no date to be displayed (settings option), an empty string is returned
+	public String getDisplayedDate() {
+		if (!hasDeadline) return "";
+		return format(deadline);
+	}
+
+	public static String format(long time) {
+		return DATE_FORMAT.format(time);
 	}
 }

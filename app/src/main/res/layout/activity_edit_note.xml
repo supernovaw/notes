@@ -39,6 +39,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <Button
+        android:id="@+id/deadline_button"
+        style="@android:style/Widget.DeviceDefault.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Deadline at 2036/03/16 16:20" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
@@ -50,4 +61,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_done_black_24dp" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

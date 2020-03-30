@@ -47,7 +47,7 @@ public class NotesAdapter extends BaseAdapter {
 
 		String title = note.getTitle();
 		String text = note.getText();
-		String date = note.getDisplayedDate(context);
+		String date = note.getDisplayedDate();
 
 		boolean displayTitle = !title.isEmpty();
 		boolean displayText = !text.isEmpty();

@@ -48,8 +48,8 @@ public class NotesListActivity extends AppCompatActivity {
 
 	// after editing or adding a note, update the list
 	@Override
-	protected void onRestart() {
-		super.onRestart();
+	protected void onResume() {
+		super.onResume();
 		adapter.notifyDataSetChanged();
 	}
 
