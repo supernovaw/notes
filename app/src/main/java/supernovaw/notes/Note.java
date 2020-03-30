@@ -9,7 +9,10 @@ public class Note {
 	private String title;
 	private String text;
 
-	private long created, modified, accessed;
+	private long created;
+	private long modified;
+	private long accessed;
+
 	private long deadline;
 	private boolean hasDeadline;
 
@@ -19,6 +22,19 @@ public class Note {
 
 		long t = System.currentTimeMillis();
 		created = modified = accessed = t;
+	}
+
+	Note(String title, String text, long created, long modified,
+		 long accessed, boolean hasDeadline, long deadline) {
+		this.title = title;
+		this.text = text;
+
+		this.created = created;
+		this.modified = modified;
+		this.accessed = accessed;
+
+		this.hasDeadline = hasDeadline;
+		this.deadline = deadline;
 	}
 
 	public String getTitle() {
@@ -52,6 +68,18 @@ public class Note {
 
 	public void removeDeadline() {
 		hasDeadline = false;
+	}
+
+	public long getCreated() {
+		return created;
+	}
+
+	public long getModified() {
+		return modified;
+	}
+
+	public long getAccessed() {
+		return accessed;
 	}
 
 	// if there is no date to be displayed (settings option), an empty string is returned

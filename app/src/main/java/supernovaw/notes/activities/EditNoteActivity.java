@@ -71,6 +71,12 @@ public class EditNoteActivity extends AppCompatActivity {
 		note.update(title_input.getText().toString(), text_input.getText().toString());
 	}
 
+	@Override
+	protected void onStop() {
+		super.onStop();
+		Notes.save(this);
+	}
+
 	// shows date and time pickers to choose a deadline
 	private void pickDeadline() {
 		Calendar picked = Calendar.getInstance();
