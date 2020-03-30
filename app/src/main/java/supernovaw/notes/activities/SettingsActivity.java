@@ -3,6 +3,7 @@ package supernovaw.notes.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.SimpleAdapter;
@@ -17,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import supernovaw.notes.NotesSettings;
 import supernovaw.notes.PinCodeManager;
 import supernovaw.notes.R;
 
@@ -45,9 +47,13 @@ public class SettingsActivity extends AppCompatActivity {
 			Toast.makeText(this, "Removed PIN code", Toast.LENGTH_SHORT).show();
 		}
 
-		initButtonGroup(button_dark, button_light);
-		initButtonGroup(button_descending, button_ascending);
+		initButtonGroup(null, button_dark, button_light);
+
+		initButtonGroup(v -> updateSorting(), button_descending, button_ascending);
+		button_descending.setChecked(!NotesSettings.isSortAscending());
+		button_ascending.setChecked(NotesSettings.isSortAscending());
 		initSortSpinner();
+
 		updatePinSection();
 		set_pin_button.setOnClickListener(v -> addOrChangePin());
 		remove_pin_button.setOnClickListener(v -> removePin());
@@ -78,6 +84,25 @@ public class SettingsActivity extends AppCompatActivity {
 				new String[]{textKey}, new int[]{android.R.id.text1});
 
 		sort_by_spinner.setAdapter(adapter);
+
+		sort_by_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				updateSorting();
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+
+		sort_by_spinner.setSelection(NotesSettings.getSortOrder());
+	}
+
+	private void updateSorting() {
+		int num = sort_by_spinner.getSelectedItemPosition();
+		boolean asc = button_ascending.isChecked();
+		NotesSettings.setSortOrder(num, asc);
 	}
 
 	private void updatePinSection() {
@@ -117,10 +142,13 @@ public class SettingsActivity extends AppCompatActivity {
 		startActivity(verifyIdentity);
 	}
 
-	private static void initButtonGroup(RadioButton... buttons) {
+	private static void initButtonGroup(View.OnClickListener additional, RadioButton... buttons) {
 		View.OnClickListener listener = v -> {
 			for (RadioButton b : buttons)
 				if (b != v) b.setChecked(false);
+
+			if (additional != null)
+				additional.onClick(v);
 		};
 
 		for (RadioButton b : buttons)

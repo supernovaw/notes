@@ -28,10 +28,12 @@ public class Notes {
 
 	public static void addNote(Note n) {
 		allNotes.add(n);
+		NotesSettings.sort(allNotes);
 	}
 
 	public static void removeNote(int index) {
 		allNotes.remove(index);
+		NotesSettings.sort(allNotes);
 	}
 
 	public static void init(Activity context) {
@@ -82,6 +84,7 @@ public class Notes {
 			}
 
 			allNotes = readNotes;
+			NotesSettings.sort(allNotes);
 		} catch (Exception e) {
 			allNotes = new ArrayList<>();
 			Log.v(LOG_TAG, "The file is corrupted (" +

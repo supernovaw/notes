@@ -60,6 +60,7 @@ public class EditNoteActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+		note.onAccess();
 		title_input.setText(note.getTitle());
 		text_input.setText(note.getText());
 		deadline_button.setText(getDeadlineButtonText());

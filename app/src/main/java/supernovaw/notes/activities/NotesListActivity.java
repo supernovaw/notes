@@ -16,6 +16,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import supernovaw.notes.Notes;
 import supernovaw.notes.NotesAdapter;
+import supernovaw.notes.NotesSettings;
 import supernovaw.notes.PinCodeManager;
 import supernovaw.notes.R;
 
@@ -108,6 +109,7 @@ public class NotesListActivity extends AppCompatActivity {
 		else initialized = true;
 
 		PinCodeManager.init(context);
+		NotesSettings.init(context);
 		Notes.init(context);
 	}
 }

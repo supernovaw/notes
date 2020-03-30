@@ -37,6 +37,16 @@ public class Note {
 		this.deadline = deadline;
 	}
 
+	private void onModify() {
+		modified = System.currentTimeMillis();
+		onAccess();
+	}
+
+	public void onAccess() {
+		accessed = System.currentTimeMillis();
+		NotesSettings.sort(Notes.getNotes());
+	}
+
 	public String getTitle() {
 		return title;
 	}
@@ -46,11 +56,11 @@ public class Note {
 	}
 
 	public void update(String title, String text) {
-		this.title = title;
-		this.text = text;
-
-		long t = System.currentTimeMillis();
-		modified = accessed = t;
+		if (!title.equals(this.title) || !text.equals(this.text)) {
+			onModify();
+			this.title = title;
+			this.text = text;
+		}
 	}
 
 	public boolean hasDeadline() {
@@ -64,10 +74,12 @@ public class Note {
 	public void setDeadline(long deadline) {
 		this.deadline = deadline;
 		hasDeadline = true;
+		onModify();
 	}
 
 	public void removeDeadline() {
 		hasDeadline = false;
+		onModify();
 	}
 
 	public long getCreated() {
@@ -84,8 +96,17 @@ public class Note {
 
 	// if there is no date to be displayed (settings option), an empty string is returned
 	public String getDisplayedDate() {
-		if (!hasDeadline) return "";
-		return format(deadline);
+		switch (NotesSettings.getSortOrder()) {
+			case NotesSettings.SORT_CREATED:
+				return format(created);
+			case NotesSettings.SORT_MODIFIED:
+				return format(modified);
+			case NotesSettings.SORT_ACCESSED:
+				return format(accessed);
+			default: // the only remaining case is SORT_DEADLINE
+				if (hasDeadline) return format(deadline);
+				else return "";
+		}
 	}
 
 	public static String format(long time) {
