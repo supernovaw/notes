@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 
-import supernovaw.notes.activities.PinCodeInput;
+import supernovaw.notes.activities.PinCodeInputActivity;
 
 public final class PinCodeManager {
 	private static final String LOG_TAG = PinCodeManager.class.getSimpleName();
@@ -75,7 +75,7 @@ public final class PinCodeManager {
 		}
 
 		if (!loggedIn) {
-			c.startActivity(new Intent(c, PinCodeInput.class));
+			c.startActivity(new Intent(c, PinCodeInputActivity.class));
 			c.finish();
 		}
 	}

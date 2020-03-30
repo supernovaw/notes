@@ -12,7 +12,7 @@ import java.util.Arrays;
 import supernovaw.notes.PinCodeManager;
 import supernovaw.notes.R;
 
-import static supernovaw.notes.activities.PinCodeInput.DOT_CHAR;
+import static supernovaw.notes.activities.PinCodeInputActivity.DOT_CHAR;
 
 public class PinCodeSetActivity extends AppCompatActivity {
 	private static final int MIN_PIN_LENGTH = 3;

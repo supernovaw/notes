@@ -13,7 +13,7 @@ import java.util.Objects;
 import supernovaw.notes.PinCodeManager;
 import supernovaw.notes.R;
 
-public class PinCodeInput extends AppCompatActivity {
+public class PinCodeInputActivity extends AppCompatActivity {
 	/* When launching 'switchToActivity', this boolean extra is
 	 * sent to verify that the PIN was indeed entered correctly.
 	 */

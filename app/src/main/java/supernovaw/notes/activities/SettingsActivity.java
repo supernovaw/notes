@@ -41,7 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
 		initViews();
 
 		boolean pinVerifiedForRemoval = getIntent().getBooleanExtra(
-				PinCodeInput.PIN_ENTERED_CORRECTLY_EXTRA, false);
+				PinCodeInputActivity.PIN_ENTERED_CORRECTLY_EXTRA, false);
 		if (pinVerifiedForRemoval) {
 			PinCodeManager.setNewPin(new int[0], this);
 			Toast.makeText(this, "Removed PIN code", Toast.LENGTH_SHORT).show();
@@ -119,10 +119,10 @@ public class SettingsActivity extends AppCompatActivity {
 
 	private void addOrChangePin() {
 		if (PinCodeManager.isPinSet()) {
-			Intent verifyIdentity = new Intent(this, PinCodeInput.class);
+			Intent verifyIdentity = new Intent(this, PinCodeInputActivity.class);
 			verifyIdentity.putExtra(Intent.EXTRA_TITLE,
 					"Verify your identity to proceed changing the PIN code");
-			verifyIdentity.putExtra(PinCodeInput.ACTIVITY_CLASSNAME_EXTRA, PinCodeSetActivity.class.getName());
+			verifyIdentity.putExtra(PinCodeInputActivity.ACTIVITY_CLASSNAME_EXTRA, PinCodeSetActivity.class.getName());
 
 			finish();
 			startActivity(verifyIdentity);
@@ -134,10 +134,10 @@ public class SettingsActivity extends AppCompatActivity {
 	}
 
 	private void removePin() {
-		Intent verifyIdentity = new Intent(this, PinCodeInput.class);
+		Intent verifyIdentity = new Intent(this, PinCodeInputActivity.class);
 		verifyIdentity.putExtra(Intent.EXTRA_TITLE,
 				"Verify your identity to proceed removing the PIN code");
-		verifyIdentity.putExtra(PinCodeInput.ACTIVITY_CLASSNAME_EXTRA, getClass().getName());
+		verifyIdentity.putExtra(PinCodeInputActivity.ACTIVITY_CLASSNAME_EXTRA, getClass().getName());
 		finish();
 		startActivity(verifyIdentity);
 	}
