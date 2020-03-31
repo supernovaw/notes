@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
@@ -14,6 +15,10 @@ import supernovaw.notes.PinCodeManager;
 import supernovaw.notes.R;
 
 public class PinCodeInputActivity extends AppCompatActivity {
+	// key for int[] in savedInstanceState used for restoring the input
+	private static final String STATE_ENTERED_PIN = "entered_pin";
+	private static final String STATE_ENTERED_LEN = "entered_length";
+
 	/* When launching 'switchToActivity', this boolean extra is
 	 * sent to verify that the PIN was indeed entered correctly.
 	 */
@@ -109,6 +114,26 @@ public class PinCodeInputActivity extends AppCompatActivity {
 			startActivity(intent);
 		} else {
 			clear();
+		}
+	}
+
+	@Override
+	protected void onSaveInstanceState(@NonNull Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putIntArray(STATE_ENTERED_PIN, typedNumbers);
+		outState.putInt(STATE_ENTERED_LEN, typedNumbersAmt);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		if (savedInstanceState.containsKey(STATE_ENTERED_PIN)) {
+			typedNumbers = savedInstanceState.getIntArray(STATE_ENTERED_PIN);
+			typedNumbersAmt = savedInstanceState.getInt(STATE_ENTERED_LEN);
+
+			char[] dots = new char[typedNumbersAmt];
+			Arrays.fill(dots, DOT_CHAR);
+			dots_label.setText(new String(dots));
 		}
 	}
 }

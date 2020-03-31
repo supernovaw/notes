@@ -5,6 +5,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
@@ -15,6 +16,10 @@ import supernovaw.notes.R;
 import static supernovaw.notes.activities.PinCodeInputActivity.DOT_CHAR;
 
 public class PinCodeSetActivity extends AppCompatActivity {
+	// key for int[] in savedInstanceState used for restoring the input
+	private static final String STATE_ENTERED_PIN = "entered_pin";
+	private static final String STATE_ENTERED_LEN = "entered_length";
+
 	private static final int MIN_PIN_LENGTH = 3;
 	private static final int MAX_PIN_LENGTH = 8;
 
@@ -124,6 +129,26 @@ public class PinCodeSetActivity extends AppCompatActivity {
 		int[] result = new int[typedNumbersAmt];
 		System.arraycopy(typedNumbers, 0, result, 0, typedNumbersAmt);
 		return result;
+	}
+
+	@Override
+	protected void onSaveInstanceState(@NonNull Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putIntArray(STATE_ENTERED_PIN, typedNumbers);
+		outState.putInt(STATE_ENTERED_LEN, typedNumbersAmt);
+	}
+
+	@Override
+	protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		if (savedInstanceState.containsKey(STATE_ENTERED_PIN)) {
+			typedNumbers = savedInstanceState.getIntArray(STATE_ENTERED_PIN);
+			typedNumbersAmt = savedInstanceState.getInt(STATE_ENTERED_LEN);
+
+			char[] dots = new char[typedNumbersAmt];
+			Arrays.fill(dots, DOT_CHAR);
+			dots_label.setText(new String(dots));
+		}
 	}
 
 	private enum State {
