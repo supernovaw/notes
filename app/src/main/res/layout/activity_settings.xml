@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="96dp"
-        android:text="Theme"
+        android:text="@string/theme_label"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -29,7 +29,7 @@
         android:padding="16dp"
         android:paddingStart="0dp"
         android:paddingEnd="32dp"
-        android:text="Light"
+        android:text="@string/theme_light"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/theme_label" />
 
@@ -41,7 +41,7 @@
         android:padding="16dp"
         android:paddingStart="0dp"
         android:paddingEnd="32dp"
-        android:text="Dark"
+        android:text="@string/theme_dark"
         app:layout_constraintStart_toEndOf="@+id/button_light"
         app:layout_constraintTop_toBottomOf="@+id/theme_label" />
 
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Sort order"
+        android:text="@string/sort_order_label"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/button_light" />
 
@@ -61,7 +61,7 @@
         android:padding="16dp"
         android:paddingStart="0dp"
         android:paddingEnd="32dp"
-        android:text="Descending"
+        android:text="@string/sort_descending"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/sort_order_label" />
 
@@ -73,7 +73,7 @@
         android:padding="16dp"
         android:paddingStart="0dp"
         android:paddingEnd="32dp"
-        android:text="Ascending"
+        android:text="@string/sort_ascending"
         app:layout_constraintStart_toEndOf="@+id/button_descending"
         app:layout_constraintTop_toBottomOf="@+id/sort_order_label" />
 
@@ -82,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Sort by the time of"
+        android:text="@string/sort_by_label"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/button_descending" />
 
@@ -118,7 +118,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Remove PIN code"
+        android:text="@string/remove_pin"
         app:layout_constraintStart_toEndOf="@+id/set_pin_button"
         app:layout_constraintTop_toTopOf="@+id/set_pin_button" />
 

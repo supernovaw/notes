@@ -86,15 +86,15 @@ public class NotesListActivity extends AppCompatActivity {
 
 		String title = Notes.getNotes().get(pos).getTitle();
 		if (title.isEmpty()) {
-			dialog.setMessage("Do you want to delete this note?");
+			dialog.setMessage(R.string.note_delete_confirm);
 		} else {
-			dialog.setMessage("Do you want to delete \"" + title + "\"?");
+			dialog.setMessage(getString(R.string.note_delete_confirm_named, title));
 		}
 
-		dialog.setPositiveButton("Yes", (d, btn) -> {
+		dialog.setPositiveButton(R.string.yes, (d, btn) -> {
 			if (btn == AlertDialog.BUTTON_POSITIVE) removeNote(pos);
 		});
-		dialog.setNegativeButton("Cancel", null);
+		dialog.setNegativeButton(R.string.cancel, null);
 		dialog.create().show();
 	}
 

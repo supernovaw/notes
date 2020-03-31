@@ -69,7 +69,7 @@ public class PinCodeSetActivity extends AppCompatActivity {
 	private void onNumEntered(int num) {
 		if (state == State.NEW_PIN_INPUT) {
 			if (typedNumbersAmt == MAX_PIN_LENGTH) {
-				title_label.setText("You can't set your PIN longer than " + MAX_PIN_LENGTH + " digits");
+				title_label.setText(getString(R.string.pin_too_long, MAX_PIN_LENGTH));
 			} else {
 				enterNum(num);
 			}
@@ -77,7 +77,7 @@ public class PinCodeSetActivity extends AppCompatActivity {
 			if (typedNumbersAmt != MAX_PIN_LENGTH) {
 				enterNum(num);
 			} else {
-				title_label.setText("You've exceeded the maximum PIN length");
+				title_label.setText(R.string.pin_length_exceeded);
 			}
 		}
 	}
@@ -96,12 +96,11 @@ public class PinCodeSetActivity extends AppCompatActivity {
 	private void confirm() {
 		if (state == State.NEW_PIN_INPUT) {
 			if (typedNumbersAmt < MIN_PIN_LENGTH) {
-				title_label.setText("The PIN has to be at least " +
-						MIN_PIN_LENGTH + " digits long");
+				title_label.setText(getString(R.string.pin_too_short, MIN_PIN_LENGTH));
 				clear();
 			} else {
 				state = State.NEW_PIN_VERIFICATION;
-				title_label.setText("Verify the PIN you entered");
+				title_label.setText(R.string.verify_pin);
 				pinToBeVerified = getEnteredPin();
 				clear();
 			}
@@ -111,11 +110,11 @@ public class PinCodeSetActivity extends AppCompatActivity {
 				boolean wasPinSet = PinCodeManager.isPinSet();
 				PinCodeManager.setNewPin(entered, this);
 				finish();
-				Toast.makeText(this, wasPinSet ? "Changed PIN code" :
-						"Set PIN code", Toast.LENGTH_SHORT).show();
+				Toast.makeText(this, wasPinSet ? R.string.pin_changed :
+						R.string.pin_set, Toast.LENGTH_SHORT).show();
 			} else {
 				clear();
-				title_label.setText("The PIN codes don't match. Enter and verify your PIN again");
+				title_label.setText(R.string.pin_mismatch);
 				state = State.NEW_PIN_INPUT;
 			}
 		}

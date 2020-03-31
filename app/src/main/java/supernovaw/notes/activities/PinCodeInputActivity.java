@@ -42,7 +42,7 @@ public class PinCodeInputActivity extends AppCompatActivity {
 		typedNumbers = new int[PinCodeManager.getPinLength()];
 
 		String title = getIntent().getStringExtra(Intent.EXTRA_TITLE);
-		title_label.setText(title == null ? getString(R.string.type_pin_title) : title);
+		title_label.setText(title == null ? getString(R.string.enter_pin_title) : title);
 
 		char[] allDotsString = new char[PinCodeManager.getPinLength()];
 		Arrays.fill(allDotsString, DOT_CHAR);

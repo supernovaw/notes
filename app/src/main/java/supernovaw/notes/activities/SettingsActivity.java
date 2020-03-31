@@ -44,7 +44,7 @@ public class SettingsActivity extends AppCompatActivity {
 				PinCodeInputActivity.PIN_ENTERED_CORRECTLY_EXTRA, false);
 		if (pinVerifiedForRemoval) {
 			PinCodeManager.setNewPin(new int[0], this);
-			Toast.makeText(this, "Removed PIN code", Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, R.string.pin_removed, Toast.LENGTH_SHORT).show();
 		}
 
 		initButtonGroup(null, button_dark, button_light);
@@ -74,10 +74,10 @@ public class SettingsActivity extends AppCompatActivity {
 		List<Map<String, String>> data = new ArrayList<>(4);
 		String textKey = "t";
 
-		data.add(Collections.singletonMap(textKey, "Creation"));
-		data.add(Collections.singletonMap(textKey, "Last modification"));
-		data.add(Collections.singletonMap(textKey, "Last access"));
-		data.add(Collections.singletonMap(textKey, "Deadline"));
+		data.add(Collections.singletonMap(textKey, getString(R.string.time_creation)));
+		data.add(Collections.singletonMap(textKey, getString(R.string.time_modification)));
+		data.add(Collections.singletonMap(textKey, getString(R.string.time_access)));
+		data.add(Collections.singletonMap(textKey, getString(R.string.time_deadline)));
 
 		SimpleAdapter adapter = new SimpleAdapter(this, data,
 				android.R.layout.simple_spinner_dropdown_item,
@@ -107,12 +107,12 @@ public class SettingsActivity extends AppCompatActivity {
 
 	private void updatePinSection() {
 		if (PinCodeManager.isPinSet()) {
-			pin_code_label.setText("Your notes are secured with a PIN code");
-			set_pin_button.setText("Change PIN code");
+			pin_code_label.setText(R.string.label_pin_set);
+			set_pin_button.setText(R.string.change_pin);
 			remove_pin_button.setVisibility(View.VISIBLE);
 		} else {
-			pin_code_label.setText("You can secure your notes with a PIN code");
-			set_pin_button.setText("Add PIN code");
+			pin_code_label.setText(R.string.label_no_pin);
+			set_pin_button.setText(R.string.add_pin);
 			remove_pin_button.setVisibility(GONE);
 		}
 	}
@@ -121,7 +121,7 @@ public class SettingsActivity extends AppCompatActivity {
 		if (PinCodeManager.isPinSet()) {
 			Intent verifyIdentity = new Intent(this, PinCodeInputActivity.class);
 			verifyIdentity.putExtra(Intent.EXTRA_TITLE,
-					"Verify your identity to proceed changing the PIN code");
+					getString(R.string.verify_identity_to_change));
 			verifyIdentity.putExtra(PinCodeInputActivity.ACTIVITY_CLASSNAME_EXTRA, PinCodeSetActivity.class.getName());
 
 			finish();
@@ -136,7 +136,7 @@ public class SettingsActivity extends AppCompatActivity {
 	private void removePin() {
 		Intent verifyIdentity = new Intent(this, PinCodeInputActivity.class);
 		verifyIdentity.putExtra(Intent.EXTRA_TITLE,
-				"Verify your identity to proceed removing the PIN code");
+				getString(R.string.verify_identity_to_remove));
 		verifyIdentity.putExtra(PinCodeInputActivity.ACTIVITY_CLASSNAME_EXTRA, getClass().getName());
 		finish();
 		startActivity(verifyIdentity);

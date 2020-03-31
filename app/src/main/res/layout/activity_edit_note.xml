@@ -14,11 +14,12 @@
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="32dp"
         android:ems="10"
-        android:hint="Title"
+        android:hint="@string/note_title"
         android:inputType="text"
         app:layout_constraintBottom_toTopOf="@+id/text_input"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/text_input"
@@ -30,14 +31,15 @@
         android:layout_marginBottom="32dp"
         android:ems="10"
         android:gravity="bottom|start"
-        android:hint="Note contents..."
+        android:hint="@string/note_contents"
         android:inputType="textMultiLine"
         app:layout_constrainedHeight="true"
         app:layout_constraintBottom_toTopOf="@+id/save_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="1.0"
+        android:importantForAutofill="no" />
 
     <Button
         android:id="@+id/deadline_button"

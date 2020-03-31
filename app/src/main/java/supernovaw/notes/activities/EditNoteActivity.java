@@ -119,9 +119,9 @@ public class EditNoteActivity extends AppCompatActivity {
 
 	private String getDeadlineButtonText() {
 		if (note.hasDeadline()) {
-			return "Deadline at " + Note.format(note.getDeadline());
+			return getString(R.string.deadline_at, Note.format(note.getDeadline()));
 		} else {
-			return "Set deadline";
+			return getString(R.string.set_deadline);
 		}
 	}
 
