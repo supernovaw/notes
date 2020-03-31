@@ -40,18 +40,22 @@ public class NotesSettings {
 	private static SharedPreferences sharedPreferences;
 
 	public static void setSortOrder(int sortMagic, boolean ascending) {
+		setSortOrderField(sortMagic, ascending);
+		sort(Notes.getNotes());
+
+		sortOrder = sortMagic;
+		sortAscending = ascending;
+		sharedPreferences.edit().putInt(SP_SORT_ORDER, sortOrder).
+				putBoolean(SP_SORT_ASCENDING, ascending).apply();
+	}
+
+	private static void setSortOrderField(int sortMagic, boolean ascending) {
 		Comparator<Note> comparator = getComparatorByMagicNumber(sortMagic);
 		if (ascending) {
 			currentSort = comparator;
 		} else {
 			currentSort = (a, b) -> comparator.compare(b, a);
 		}
-		sortOrder = sortMagic;
-		sortAscending = ascending;
-		sharedPreferences.edit().putInt(SP_SORT_ORDER, sortOrder).
-				putBoolean(SP_SORT_ASCENDING, ascending).apply();
-
-		sort(Notes.getNotes());
 	}
 
 	public static int getSortOrder() {
@@ -85,5 +89,6 @@ public class NotesSettings {
 		sharedPreferences = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE);
 		sortOrder = sharedPreferences.getInt(SP_SORT_ORDER, SORT_DEADLINE);
 		sortAscending = sharedPreferences.getBoolean(SP_SORT_ASCENDING, false);
+		setSortOrderField(sortOrder, sortAscending);
 	}
 }
