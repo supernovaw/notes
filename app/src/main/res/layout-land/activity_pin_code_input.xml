@@ -4,43 +4,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.PinCodeSetActivity">
+    tools:context=".activities.PinCodeInputActivity">
 
     <TextView
         android:id="@+id/title_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/enter_new_pin"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
         android:textAlignment="center"
         android:textColor="@android:color/black"
         android:textSize="28sp"
-        app:layout_constraintBottom_toTopOf="@+id/dots_label"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/pin_pad"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintWidth_percent="0.7" />
+        tools:text="@string/enter_pin_title" />
+
+    <TextView
+        android:id="@+id/label_all_dots_anchor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="50sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/pin_pad"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45"
+        tools:text="・・・・" />
 
     <TextView
         android:id="@+id/dots_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
         android:textColor="@android:color/black"
         android:textSize="50sp"
-        app:layout_constraintBottom_toTopOf="@+id/include"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/label_all_dots_anchor"
+        app:layout_constraintTop_toTopOf="@+id/label_all_dots_anchor"
         tools:text="・・・" />
 
     <include
-        android:id="@+id/include"
-        layout="@layout/pin_set_pad"
+        android:id="@+id/pin_pad"
+        layout="@layout/pin_pad"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="64dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="64dp"
-        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="h,4:3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

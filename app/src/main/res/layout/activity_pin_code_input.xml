@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.7"
-        tools:text="Type your PIN" />
+        tools:text="@string/enter_pin_title" />
 
     <TextView
         android:id="@+id/label_all_dots_anchor"
