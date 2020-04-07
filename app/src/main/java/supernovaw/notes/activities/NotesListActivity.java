@@ -1,6 +1,5 @@
 package supernovaw.notes.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,16 +13,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import supernovaw.notes.App;
 import supernovaw.notes.Notes;
 import supernovaw.notes.NotesAdapter;
-import supernovaw.notes.NotesSettings;
-import supernovaw.notes.PinCodeManager;
 import supernovaw.notes.R;
 
 public class NotesListActivity extends AppCompatActivity {
-	// indicates that the activity is created for the first time
-	private static boolean initialized;
-
 	private NotesAdapter adapter;
 
 	private ListView notes_list_view;
@@ -34,7 +29,7 @@ public class NotesListActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_notes_list);
 		initViews();
-		onStartup(this);
+		App.initializeIfNecessary(this);
 
 		adapter = new NotesAdapter(this);
 		notes_list_view.setAdapter(adapter);
@@ -102,14 +97,5 @@ public class NotesListActivity extends AppCompatActivity {
 		Notes.removeNote(pos);
 		adapter.notifyDataSetChanged();
 		Notes.save(this);
-	}
-
-	private static void onStartup(Activity context) {
-		if (initialized) return;
-		else initialized = true;
-
-		PinCodeManager.init(context);
-		NotesSettings.init(context);
-		Notes.init(context);
 	}
 }

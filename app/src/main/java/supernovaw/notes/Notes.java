@@ -1,13 +1,10 @@
 package supernovaw.notes;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -38,63 +35,64 @@ public class Notes {
 
 	public static void init(Activity context) {
 		byte[] readData;
-		try (InputStream fileIn = context.openFileInput(FILENAME);
-			 ByteArrayOutputStream byteOut = new ByteArrayOutputStream()) {
-			int read;
-			byte[] buffer = new byte[1024]; // 1 KB size
-			while ((read = fileIn.read(buffer)) != -1)
-				byteOut.write(buffer, 0, read);
-			readData = byteOut.toByteArray();
+		try {
+			readData = App.readFile(context, FILENAME);
 		} catch (IOException e) {
+			Log.v(LOG_TAG, "Can't read notes file: " +
+					e.getMessage() + ". Initializing empty list.");
 			allNotes = new ArrayList<>();
 			return;
 		}
 
 		try {
-			ByteBuffer buffer = ByteBuffer.wrap(readData);
-			int notesAmt = buffer.getInt();
-			List<Note> readNotes = new ArrayList<>(notesAmt);
-
-			for (int i = 0; i < notesAmt; i++) {
-				long tCreated = buffer.getLong();
-				long tModified = buffer.getLong();
-				long tAccessed = buffer.getLong();
-				byte hasDeadline = buffer.get();
-				long tDeadline;
-
-				if (hasDeadline == 0) {
-					tDeadline = 0;
-				} else if (hasDeadline == 1) {
-					tDeadline = buffer.getLong();
-				} else {
-					throw new Exception("For hasDeadline indicator byte " + hasDeadline);
-				}
-
-				byte[] titleBytes = new byte[buffer.getInt()];
-				buffer.get(titleBytes);
-
-				byte[] textBytes = new byte[buffer.getInt()];
-				buffer.get(textBytes);
-
-				String title = new String(titleBytes, STRING_ENCODING);
-				String text = new String(textBytes, STRING_ENCODING);
-
-				readNotes.add(new Note(title, text, tCreated, tModified, tAccessed,
-						hasDeadline == 1, tDeadline));
-			}
-
-			allNotes = readNotes;
-			NotesSettings.sort(allNotes);
+			ByteBuffer byteBuffer = ByteBuffer.wrap(readData);
+			readNotesFile(byteBuffer);
 		} catch (Exception e) {
 			allNotes = new ArrayList<>();
 			Log.v(LOG_TAG, "The file is corrupted (" +
-					readData.length + " B). Initializing empty array.");
+					readData.length + " B). Initialized empty list.");
 		}
 	}
 
+	// throws an Exception if the buffer is corrupted
+	private static void readNotesFile(ByteBuffer src) throws Exception {
+		int notesAmt = src.getInt();
+		List<Note> readNotes = new ArrayList<>(notesAmt);
+
+		for (int i = 0; i < notesAmt; i++) {
+			long tCreated = src.getLong();
+			long tModified = src.getLong();
+			long tAccessed = src.getLong();
+			byte hasDeadline = src.get();
+			long tDeadline;
+
+			if (hasDeadline == 0) {
+				tDeadline = 0;
+			} else if (hasDeadline == 1) {
+				tDeadline = src.getLong();
+			} else {
+				throw new Exception("For hasDeadline indicator byte " + hasDeadline);
+			}
+
+			byte[] titleBytes = new byte[src.getInt()];
+			src.get(titleBytes);
+
+			byte[] textBytes = new byte[src.getInt()];
+			src.get(textBytes);
+
+			String title = new String(titleBytes, STRING_ENCODING);
+			String text = new String(textBytes, STRING_ENCODING);
+
+			readNotes.add(new Note(title, text, tCreated, tModified, tAccessed,
+					hasDeadline == 1, tDeadline));
+		}
+
+		allNotes = readNotes;
+		NotesSettings.sort(allNotes);
+	}
+
 	public static void save(Activity context) {
-		try (ByteArrayOutputStream toWrite = new ByteArrayOutputStream();
-			 OutputStream fileOut = context.openFileOutput(FILENAME, Context.MODE_PRIVATE)) {
+		try (ByteArrayOutputStream toWrite = new ByteArrayOutputStream()) {
 			ByteBuffer intBuffer = ByteBuffer.allocate(4);
 			ByteBuffer longBuffer = ByteBuffer.allocate(8);
 
@@ -122,8 +120,8 @@ public class Notes {
 				toWrite.write(text);
 			}
 
-			toWrite.writeTo(fileOut);
-		} catch (IOException e) { // may only occur in writeTo or close
+			App.writeFile(context, FILENAME, toWrite.toByteArray());
+		} catch (IOException e) { // may only occur in App.writeFile
 			Log.v(LOG_TAG, "IOException while saving: " + e.getMessage());
 		}
 	}
