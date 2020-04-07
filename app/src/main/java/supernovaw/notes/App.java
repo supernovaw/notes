@@ -33,7 +33,7 @@ public class App {
 	}
 
 	public static void writeFile(Context context, String filename, byte[] bytes) throws IOException {
-		try (OutputStream out = context.openFileOutput(filename, Context.MODE_APPEND)) {
+		try (OutputStream out = context.openFileOutput(filename, Context.MODE_PRIVATE)) {
 			out.write(bytes);
 		}
 	}
